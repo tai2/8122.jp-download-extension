@@ -2,7 +2,7 @@ main()
 
 function download(blob, filename) {
     const a = document.createElement('a')
-    a.style = 'display: none'
+    a.style.display = 'none'
     document.body.appendChild(a)
     const objectUrl = window.URL.createObjectURL(blob)
     a.href = objectUrl
@@ -26,7 +26,11 @@ function collectDownloadUrls() {
         anchorElement;
         anchorElement = iter.iterateNext()
     ) {
-        downloadUrls.push(anchorElement.href)
+        if (anchorElement instanceof HTMLAnchorElement) {
+            downloadUrls.push(anchorElement.href)
+        } else {
+            console.error('element is not an anchor', anchorElement)
+        }
     }
 
     return downloadUrls
