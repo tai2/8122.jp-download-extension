@@ -13,4 +13,3 @@ then open Chrome and
 2. Enable the `Developer mode`
 3. Clicked the `Load unpacked` button
 4. Visit the `https://8122.jp/orders/downloads` with after signing in
-
