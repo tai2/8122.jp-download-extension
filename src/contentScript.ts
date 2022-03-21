@@ -1,6 +1,6 @@
 main()
 
-function download(blob, filename) {
+function download(blob, filename): void {
     const a = document.createElement('a')
     a.style.display = 'none'
     document.body.appendChild(a)
@@ -11,8 +11,8 @@ function download(blob, filename) {
     window.URL.revokeObjectURL(objectUrl)
 }
 
-function collectDownloadUrls() {
-    const downloadUrls = []
+function collectDownloadUrls(): string[] {
+    const downloadUrls: string[] = []
 
     const iter = document.evaluate(
         '//a[text()="ダウンロードする"]',
@@ -36,7 +36,7 @@ function collectDownloadUrls() {
     return downloadUrls
 }
 
-async function fetchBlobAndFilename(url) {
+async function fetchBlobAndFilename(url): Promise<[Blob, string]> {
     const response = await fetch(url)
     const header = response.headers.get('Content-Disposition')
     const filename = header.split(';')[1].split('=')[1]
