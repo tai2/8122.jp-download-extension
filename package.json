@@ -1,0 +1,23 @@
+{
+    "name": "8122.jp-downlod-extensio",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {
+        "prettify": "prettier --write .",
+        "build": "parcel build src/contentScript.js",
+        "watch": "parcel watch src/contentScript.js",
+        "test": "jest",
+        "clean": "rimraf dist .parcel-cache"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@babel/core": "^7.17.8",
+        "@babel/preset-env": "^7.16.11",
+        "jest": "^27.5.1",
+        "parcel": "^2.3.2",
+        "parcel-reporter-static-files-copy": "^1.3.4",
+        "prettier": "^2.6.0",
+        "rimraf": "^3.0.2"
+    },
+    "outputFormat": "global"
+}

@@ -1,0 +1,19 @@
+{
+    "name": "はいチーズ!一括ダウンロードボタン",
+    "description": "はいチーズ!の画像ダウンロード画面に一括ダウンロードボタンを追加します",
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "permissions": ["declarativeContent"],
+    "content_scripts": [
+        {
+            "matches": ["https://8122.jp/orders/downloads"],
+            "run_at": "document_end",
+            "js": ["contentScript.js"]
+        }
+    ],
+    "icons": {
+        "16": "/images/icon16.png",
+        "48": "/images/icon48.png",
+        "128": "/images/icon128.png"
+    }
+}
