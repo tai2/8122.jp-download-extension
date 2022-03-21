@@ -45,19 +45,16 @@ async function fetchBlobAndFilename(url) {
     return [blob, filename]
 }
 
-async function dispatchClickToAllAllDownloadButtons() {
-    const downloadUrls = collectDownloadUrls()
-
-    for (const url of downloadUrls) {
-        const [blob, filename] = await fetchBlobAndFilename(url)
-        download(blob, filename)
-    }
-}
-
 function main() {
     const button = document.createElement('button')
     button.innerText = 'このページの写真をすべてダウンロード'
-    button.addEventListener('click', dispatchClickToAllAllDownloadButtons)
+    button.addEventListener('click', async () => {
+        const downloadUrls = collectDownloadUrls()
+        for (const url of downloadUrls) {
+            const [blob, filename] = await fetchBlobAndFilename(url)
+            download(blob, filename)
+        }
+    })
 
     const pageHeading = document.querySelector('#downloadList .c-pageTitle')
     pageHeading.after(button)
