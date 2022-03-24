@@ -46,7 +46,19 @@ async function fetchBlobAndFilename(url): Promise<[Blob, string]> {
 }
 
 function main() {
-    const button = document.createElement('button')
+    const container = document.createElement('div')
+    container.style.display = 'flex'
+    container.style.flexDirection = 'column'
+    container.style.alignItems = 'center'
+    container.style.margin = '64px 0'
+    container.innerHTML = `
+    <button style="width:100%; background:#F2994A; padding:32px; border:none; border-radius:100px; font-size:24px; color:white;">このページの写真をすべてダウンロード</button>
+    <div style="display:flex; align-items:center; justify-content: center; gap:8px; padding:16px;"><span style="color:#F2994A">powered by 8122-bulk-downloader</span><img src="${chrome.runtime.getURL(
+        'images/icon16.png'
+    )}"></div>
+    `
+
+    const button = container.getElementsByTagName('button')[0]
     button.innerText = 'このページの写真をすべてダウンロード'
     button.addEventListener('click', async () => {
         const downloadUrls = collectDownloadUrls()
@@ -56,6 +68,21 @@ function main() {
         }
     })
 
-    const pageHeading = document.querySelector('#downloadList .c-pageTitle')
-    pageHeading.after(button)
+    const pagination = document.querySelector('#downloadList .c-pagination')
+    if (pagination) {
+        pagination.before(container)
+    } else {
+        const downloadList = document.getElementById('downloadList')
+        const observer = new MutationObserver((mutationList) => {
+            const pagination = downloadList.querySelector('.c-pagination')
+            if (pagination) {
+                pagination.before(container)
+                observer.disconnect()
+            }
+        })
+        observer.observe(downloadList, {
+            childList: true,
+            subtree: true,
+        })
+    }
 }
