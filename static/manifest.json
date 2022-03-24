@@ -3,7 +3,6 @@
     "description": "はいチーズ!の画像ダウンロード画面に一括ダウンロードボタンを追加します",
     "version": "1.0.0",
     "manifest_version": 3,
-    "permissions": ["declarativeContent"],
     "content_scripts": [
         {
             "matches": ["https://8122.jp/orders/downloads"],
