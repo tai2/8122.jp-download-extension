@@ -16,7 +16,7 @@ function collectDownloadUrls(): string[] {
 
     const iter = document.evaluate(
         '//a[text()="ダウンロードする"]',
-        document.getElementById('downloadList'),
+        document.body,
         null,
         XPathResult.ANY_TYPE,
         null
@@ -45,7 +45,7 @@ async function fetchBlobAndFilename(url): Promise<[Blob, string]> {
     return [blob, filename]
 }
 
-function main() {
+function createContainer() {
     const container = document.createElement('div')
     container.style.display = 'flex'
     container.style.flexDirection = 'column'
@@ -68,21 +68,46 @@ function main() {
         }
     })
 
-    const pagination = document.querySelector('#downloadList .c-pagination')
-    if (pagination) {
-        pagination.before(container)
-    } else {
-        const downloadList = document.getElementById('downloadList')
-        const observer = new MutationObserver((mutationList) => {
-            const pagination = downloadList.querySelector('.c-pagination')
-            if (pagination) {
-                pagination.before(container)
+    return container
+}
+
+async function waitForDomIdle() {
+    return new Promise((resolve) => {
+        const timeout = () =>
+            setTimeout(() => {
                 observer.disconnect()
-            }
+                resolve()
+            }, 2000)
+
+        let timeoutId = timeout()
+
+        const observer = new MutationObserver((mutationList) => {
+            clearTimeout(timeoutId)
+            timeoutId = timeout()
         })
-        observer.observe(downloadList, {
+        observer.observe(document.body, {
             childList: true,
             subtree: true,
         })
+    })
+}
+
+async function main() {
+    await waitForDomIdle()
+
+    const container = createContainer()
+    if (location.pathname.match(/\/orders\/\d+/)) {
+        const orderInfo = document.querySelector('#orderInfo')
+        if (orderInfo) {
+            orderInfo.append(container)
+        }
+    } else if (location.pathname === '/orders/downloads') {
+        const pagination = document.querySelector('#downloadList .c-pagination')
+        const downloadList = document.querySelector('#downloadList')
+        if (pagination) {
+            pagination.before(container)
+        } else if (downloadList) {
+            downloadList.append(container)
+        }
     }
 }
