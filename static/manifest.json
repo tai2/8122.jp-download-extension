@@ -1,7 +1,7 @@
 {
     "name": "はいチーズ!まとめてダウンローダー",
     "description": "はいチーズ!の画像ダウンロード画面に一括ダウンロードボタンを追加します",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "manifest_version": 3,
     "content_scripts": [
         {
